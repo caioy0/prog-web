@@ -14,7 +14,7 @@ public class ProdutoController {
      * PUT - Alterar
      * Delete - Apagar
      */
-    @GetMapping("/api/produto/(codigo)")
+    @GetMapping("/api/produto/{codigo}")
     public Produto carregar(@PathVariable("codigo") int codigo){
         // Buscar BD
         Produto obj = new Produto();
