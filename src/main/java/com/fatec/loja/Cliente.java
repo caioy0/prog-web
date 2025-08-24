@@ -1,0 +1,16 @@
+package com.fatec.loja;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+@Data
+@Entity
+public class Cliente {
+    @Id
+    private int id;
+    private String nome;
+    private String cpf;
+    private String endereco;
+    
+}
