@@ -30,6 +30,8 @@ public class ClienteController {
         return bd.findById(c).orElse(new Cliente());
     }
 
+    // else {return new Cliente};
+
    @PutMapping("/api/cliente")
     public void alterar(@RequestBody Cliente obj){
         if(bd.existsById(obj.getId())){
