@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -46,5 +48,18 @@ public class ProdutoController {
         }
     }
     @GetMapping("/api/produtos")
-    public List<Produto> listar(){ return bd.findAll();}
+    public List<Produto> listar(){ 
+        return bd.findAll();
+    }
+
+    @GetMapping("/api/produtos/vitrine")
+    public List<Produto> carregarVitrine(){
+        return bd.listarVitrine();
+    }
+    
+    @GetMapping("/api/produtos/busca")
+    public List<Produto> realizarBusca(@RequestParam String termo) {
+        return bd.fazerBusca(termo);
+    }
+    
 }
