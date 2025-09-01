@@ -1,6 +1,7 @@
 package com.fatec.loja;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -51,5 +52,20 @@ public class ClienteController {
     @GetMapping("/api/clientes")
     public List<Cliente> listar(){
         return bd.findAll();
+    }
+
+    @GetMapping("/api/cliente/inativos")
+    public List<Cliente> carregarInativos(){
+        return bd.listarInativos();
+    }
+
+    @PostMapping("/api/cliente/login")
+    public Cliente fazerLogin(@RequestBody Cliente obj){
+        Optional<Cliente> retorno = bd.fazerLogin(obj.getEmail(), obj.getSenha()) ;
+        if(retorno.isPresent()) {
+            return retorno.get();
+        }  else {
+            return new Cliente();
+        }
     }
 }

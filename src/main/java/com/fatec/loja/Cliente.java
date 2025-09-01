@@ -15,5 +15,9 @@ public class Cliente {
     private String senha;
     private int ativo;
     private String endereco;
+    private String cidade;
+    private String cep;
+    private String logradouro;
+    private String complemento;
     
 }
