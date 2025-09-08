@@ -16,16 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "*")
 public class ClienteController {
-
     @Autowired
     ClienteRepository bd;
 
+    // gravar cliente
     @PostMapping("/api/cliente")
     public void gravar(@RequestBody Cliente obj){
         bd.save(obj);
         System.out.println("Info do cliente gravada com sucesso!");
     }
 
+    // carregar cleinte
     @GetMapping("/api/cliente/{codigo}")
     public Cliente carregar(@PathVariable("codigo") int c){
         return bd.findById(c).orElse(new Cliente());
@@ -33,6 +34,7 @@ public class ClienteController {
 
     // else {return new Cliente};
 
+    // alterar dados
    @PutMapping("/api/cliente")
     public void alterar(@RequestBody Cliente obj){
         if(bd.existsById(obj.getId())){
@@ -41,6 +43,7 @@ public class ClienteController {
         }
     }
 
+    // deletar
     @DeleteMapping("/api/cliente/{codigo}")
     public void remover(@PathVariable("codigo") int codigo){
         if(bd.existsById(codigo)){
@@ -49,16 +52,19 @@ public class ClienteController {
         }
     }
 
+    // Listar todos os clientes
     @GetMapping("/api/clientes")
     public List<Cliente> listar(){
         return bd.findAll();
     }
 
+    // Listar clientes inativos
     @GetMapping("/api/cliente/inativos")
     public List<Cliente> carregarInativos(){
         return bd.listarInativos();
     }
 
+    // Fazer login
     @PostMapping("/api/cliente/login")
     public Cliente fazerLogin(@RequestBody Cliente obj){
         Optional<Cliente> retorno = bd.fazerLogin(obj.getEmail(), obj.getSenha()) ;

@@ -9,15 +9,14 @@ import lombok.Data;
 public class Cliente {
     @Id
     private int id;
+    private int ativo;
     private String nome;
     private String email;
-    private String cpf;
     private String senha;
-    private int ativo;
+    private String cpf;
     private String endereco;
     private String cidade;
     private String cep;
     private String logradouro;
     private String complemento;
-    
 }
