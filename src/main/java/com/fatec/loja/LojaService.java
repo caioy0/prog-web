@@ -10,6 +10,7 @@ public class LojaService {
     @Autowired
     private JavaMailSender conta;
 
+    // enviar email do produto
     public String enviarEmail(String to, String assunto, String corpo){
         try{
             SimpleMailMessage mensagem = new SimpleMailMessage();
@@ -26,6 +27,18 @@ public class LojaService {
 
     }
 
+    // confirmar de cadastro
+    public String enviarEmailConfirmacao(String email, String nome) {
+        String assunto = "🎉 Confirmação de Cadastro!";
+        String corpo = gerarMensagemConfirmacao(nome);
+        return enviarEmail(email, assunto, corpo);
+    }
 
+    private String gerarMensagemConfirmacao(String nome) {
+        return "Olá " + nome + "!\n\n" +
+               "Seu cadastro foi realizado com sucesso em nossa loja!\n\n" +
+               "Agradecemos por escolher nossa loja!\n\n" +
+               "Atenciosamente,\nEquipe Sua Loja";
+    }
 
 }

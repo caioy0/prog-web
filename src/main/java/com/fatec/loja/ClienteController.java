@@ -1,9 +1,12 @@
 package com.fatec.loja;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +22,40 @@ public class ClienteController {
     @Autowired
     ClienteRepository bd;
 
+    @Autowired
+    LojaService lojaService;
+
     // gravar cliente
     @PostMapping("/api/cliente")
-    public void gravar(@RequestBody Cliente obj){
+    public ResponseEntity<Map<String, String>> gravar(@RequestBody Cliente obj){
+    Map<String, String> response = new HashMap<>();
+    
+    try {
         bd.save(obj);
-        System.out.println("Info do cliente gravada com sucesso!");
+        response.put("status", "success");
+        response.put("message", "Cliente cadastrado com sucesso");
+        response.put("clienteId", String.valueOf(obj.getId()));
+        
+        // Envia email em segundo plano (não bloqueia a resposta)
+        new Thread(() -> {
+            String resultadoEmail = lojaService.enviarEmailConfirmacao(
+                obj.getEmail(), 
+                obj.getNome()
+            );
+            System.out.println("Status do email: " + resultadoEmail);
+        }).start();
+        
+        response.put("emailStatus", "enviando_em_segundo_plano");
+        return ResponseEntity.ok(response);
+        
+    } catch (Exception error) {
+        response.put("status", "error");
+        response.put("message", "Erro ao cadastrar cliente: " + error.getMessage());
+        return ResponseEntity.status(500).body(response);
     }
+}
 
-    // carregar cleinte
+    // carregar cliente
     @GetMapping("/api/cliente/{codigo}")
     public Cliente carregar(@PathVariable("codigo") int c){
         return bd.findById(c).orElse(new Cliente());
