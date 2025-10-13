@@ -1,0 +1,19 @@
+<h3>Fale Conosco</h3>
+<b>{{msg}}</b>
+
+nome: <input type="text" [(ngModel)]="nome" placeholder="Informe o seu nome" /><br>
+telefone:<input type="text" [(ngModel)]="telefone" placeholder="9999-9999" /><br>
+email:<input type="email" [(ngModel)]="email" /><br>
+codigo do pedido:<input type="number" [(ngModel)]="numeroPedido" min="1" max="999999999999" /><br>
+Data do pedido:<input type="date" [(ngModel)]="dataPedido" /><br>
+Deseja receber uma copia desse chamado:
+<input type="radio" value="1" [(ngModel)]="recebeCopia" name="copia">Sim
+<input type="radio" name="copia">Não<br>
+assunto:<select [(ngModel)]="assunto">
+    <option>Pedido</option><option>troca</option><option>reclamação</option>
+</select>
+<br>
+mensagem:<textarea id="mensagem" rows="5" cols="50"></textarea><br>
+<input type="checkbox" [(ngModel)]="autoriza">Autorizo a utilização dos meus dados
+nesse chamado pela equipe interna.<br>
+<button (click)="enviar()">Enviar</button>
